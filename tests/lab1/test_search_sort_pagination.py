@@ -17,7 +17,7 @@ def test_search_is_case_insensitive_and_partial(client: TestClient) -> None:
 
 
 def test_search_matches_category(client: TestClient) -> None:
-    response = client.get("/products", params={"q": "MONit"})
+    response = client.get("/products", params={"q": "MONitOR"})
 
     assert response.status_code == 200
     assert [item["name"] for item in response.json()["items"]] == [

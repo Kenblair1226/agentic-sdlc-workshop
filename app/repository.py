@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 from app.models import Product
 
 PRODUCTS = [
@@ -32,7 +34,7 @@ def search_products(
 
     if sort is not None:
         products.sort(
-            key=lambda product: getattr(product, sort),
+            key=attrgetter(sort),
             reverse=order == "desc",
         )
 
