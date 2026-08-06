@@ -18,13 +18,13 @@
 - [ ] Repository is created from this starter and `main` is protected as intended.
 - [ ] Copilot coding agent is enabled for a test student account.
 - [ ] GitHub Actions can run in the organization.
-- [ ] CodeQL default setup is enabled for this repository; no extra advanced setup workflow is present.
+- [ ] Advanced CodeQL setup is accepted for this repository; default setup is not enabled.
 - [ ] Copilot code review is available in the PR reviewer menu.
 - [ ] `copilot-setup-steps.yml` succeeds from the Actions tab.
 - [ ] A complete Lab 1 agent run has been recorded as backup.
 - [ ] A prepared Lab 2 PR produces the expected CodeQL alerts.
 - [ ] Students have repository admin access for creating a repository ruleset.
-- [ ] The `validate` and CodeQL checks have completed at least once so they are selectable.
+- [ ] The `validate` and `analyze` checks have completed at least once so they are selectable.
 - [ ] Venue network reaches GitHub and Python package hosting.
 
 ## Validate the repository

@@ -8,7 +8,7 @@ CI / CodeQL 與 Repository Ruleset 串成從 prompt 到 governed merge 的完整
 
 - 具備 repository admin 權限
 - CI `validate` job 至少成功執行一次
-- CodeQL 檢查至少成功執行一次
+- CodeQL `analyze` job 至少成功執行一次
 - Repository 已啟用 Code Scanning
 
 請使用學員自己的 workshop repository。未經核准，不得在 production repository
@@ -22,7 +22,7 @@ CI / CodeQL 與 Repository Ruleset 串成從 prompt 到 governed merge 的完整
 | Domain workflow | `.github/skills/secure-fastapi-endpoint/SKILL.md` | 可重複使用的 secure endpoint procedure |
 | Environment | `.github/workflows/copilot-setup-steps.yml` | 固定 cloud-agent runtime 與 dependencies |
 | Agent validation | `.github/hooks/validate-on-stop.json` | Agent 嘗試停止時，阻擋含有本機驗證失敗的結果 |
-| Pull Request checks | `.github/workflows/ci.yml` 與 GitHub CodeQL default setup | 產生獨立的 CI 與 security evidence |
+| Pull Request checks | `.github/workflows/ci.yml`、`codeql.yml` | 產生獨立的 CI 與 security evidence |
 | Merge governance | Repository Ruleset | 防止 contributor 或 Agent 繞過 required checks |
 
 內層 guardrails 改善 Agent 行為；外層 guardrails 即使在 Agent 忽略指引或產生錯誤
@@ -75,7 +75,7 @@ Repository Settings > Rules > Rulesets > New ruleset > New branch ruleset
 | Require a pull request before merging | Enabled |
 | Required approvals | 個人操作設為 `0`；兩人一組設為 `1` |
 | Require status checks to pass | Enabled |
-| Required checks | `validate` 與 CodeQL check |
+| Required checks | `validate`、`analyze` |
 | Block force pushes | Enabled |
 | Restrict deletions | Enabled |
 
@@ -94,7 +94,7 @@ Run the targeted test and repository validation before updating this PR.
 ```
 
 5. 自行驗證 diff，不要直接接受 Agent 結果。
-6. 僅在 `validate` 與 CodeQL check 通過後 merge；兩人一組時需先取得 approval。
+6. 僅在 `validate` 與 `analyze` 通過後 merge；兩人一組時需先取得 approval。
 
 ## 完成條件
 
