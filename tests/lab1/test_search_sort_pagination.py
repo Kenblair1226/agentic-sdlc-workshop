@@ -16,6 +16,23 @@ def test_search_is_case_insensitive_and_partial(client: TestClient) -> None:
     ]
 
 
+def test_search_matches_category(client: TestClient) -> None:
+    response = client.get("/products", params={"q": "MONitOR"})
+
+    assert response.status_code == 200
+    assert [item["name"] for item in response.json()["items"]] == [
+        "ProArt Display PA279CRV"
+    ]
+
+
+def test_sort_by_name_ascending_by_default(client: TestClient) -> None:
+    response = client.get("/products", params={"sort": "name"})
+
+    assert response.status_code == 200
+    names = [item["name"] for item in response.json()["items"]]
+    assert names == sorted(names)
+
+
 def test_sort_by_price_descending(client: TestClient) -> None:
     response = client.get("/products", params={"sort": "price", "order": "desc"})
 
@@ -62,6 +79,7 @@ def test_search_sort_and_pagination_can_be_combined(client: TestClient) -> None:
         ({"sort": "unknown"}, "sort"),
         ({"order": "sideways"}, "order"),
         ({"page": 0}, "page"),
+        ({"page_size": 0}, "page_size"),
         ({"page_size": 21}, "page_size"),
     ],
 )

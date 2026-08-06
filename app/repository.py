@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 from app.models import Product
 
 PRODUCTS = [
@@ -14,6 +16,32 @@ def list_products() -> list[Product]:
     return PRODUCTS.copy()
 
 
+def search_products(
+    q: str | None,
+    sort: str | None,
+    order: str,
+    page: int,
+    page_size: int,
+) -> tuple[list[Product], int]:
+    products = list_products()
+    if q is not None:
+        query = q.casefold()
+        products = [
+            product
+            for product in products
+            if query in product.name.casefold() or query in product.category.casefold()
+        ]
+
+    if sort is not None:
+        products.sort(
+            key=attrgetter(sort),
+            reverse=order == "desc",
+        )
+
+    total = len(products)
+    start = (page - 1) * page_size
+    return products[start : start + page_size], total
+
+
 def get_product(product_id: int) -> Product | None:
     return next((product for product in PRODUCTS if product.id == product_id), None)
-
