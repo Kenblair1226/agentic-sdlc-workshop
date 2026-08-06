@@ -58,10 +58,9 @@ ruff check .
 
 ## Workshop 重要設定
 
-- 使用 repository 內建的 CodeQL advanced setup workflow；請勿同時啟用
-  CodeQL default setup。
+- 使用 GitHub CodeQL default setup；請勿再加入額外的 CodeQL advanced setup workflow，
+  否則 Code Scanning 會拒絕處理 SARIF 結果。
 - Repository 與學員帳號必須已啟用 Copilot coding agent。
 - Workshop organization 必須允許 GitHub Actions 與 Copilot Code Review。
 - Repository 必須啟用 Code Scanning，Lab 3 學員需具備 repository admin 權限。
 - 本 repository 不使用真實 credentials 或 production data。
-
