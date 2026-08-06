@@ -24,6 +24,14 @@ def test_sort_by_price_descending(client: TestClient) -> None:
     assert prices == sorted(prices, reverse=True)
 
 
+def test_sort_by_name_defaults_to_ascending_order(client: TestClient) -> None:
+    response = client.get("/products", params={"sort": "name"})
+
+    assert response.status_code == 200
+    names = [item["name"] for item in response.json()["items"]]
+    assert names == sorted(names)
+
+
 def test_pagination_reports_total_before_slicing(client: TestClient) -> None:
     response = client.get("/products", params={"page": 2, "page_size": 2})
 
@@ -62,6 +70,7 @@ def test_search_sort_and_pagination_can_be_combined(client: TestClient) -> None:
         ({"sort": "unknown"}, "sort"),
         ({"order": "sideways"}, "order"),
         ({"page": 0}, "page"),
+        ({"page_size": 0}, "page_size"),
         ({"page_size": 21}, "page_size"),
     ],
 )

@@ -41,7 +41,20 @@ python scripts/validate.py
 pytest -q -m lab1
 ```
 
-將上述規則改寫成逐項可驗證的 acceptance criteria。
+請將上述規則改寫成逐項可驗證的 acceptance criteria，例如：
+
+- [ ] `GET /products?q=<term>` 會對 `name` 與 `category` 執行不區分大小寫的 partial match。
+- [ ] `GET /products?sort=name` 與 `GET /products?sort=price` 會依指定欄位排序。
+- [ ] `GET /products?sort=<invalid>` 會回傳 HTTP 422。
+- [ ] `GET /products?order=desc` 會套用降冪排序；未提供 `order` 時預設為 `asc`。
+- [ ] `GET /products?order=<invalid>` 會回傳 HTTP 422。
+- [ ] `GET /products?page=<n>` 僅接受大於或等於 1 的整數；無效值會回傳 HTTP 422。
+- [ ] `GET /products?page_size=<n>` 僅接受 1 到 20 的整數；無效值會回傳 HTTP 422。
+- [ ] Response 維持既有的 `items`、`total`、`page`、`page_size` shape。
+- [ ] `total` 代表分頁前的符合筆數，而不是當前頁面的 item 數量。
+- [ ] 搜尋、排序與分頁可以同時組合使用。
+- [ ] `GET /products/{product_id}` 的既有成功與 404 行為維持不變。
+- [ ] 以下驗證命令必須通過：`python scripts/validate.py`、`pytest -q -m lab1`。
 
 ## 3. 指派 Coding Agent
 
