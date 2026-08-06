@@ -28,7 +28,7 @@ CI / CodeQL 與 Repository Ruleset 串成從 prompt 到 governed merge 的完整
 內層 guardrails 改善 Agent 行為；外層 guardrails 即使在 Agent 忽略指引或產生錯誤
 修改時，仍能強制執行 repository policy。
 
-## 2. 新增一條 ASUS Team Rule
+## 2. 新增一條 Repository Rule
 
 選擇一個具體且可驗證的改善：
 

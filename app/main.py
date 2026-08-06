@@ -3,9 +3,9 @@ from fastapi import FastAPI
 from app.routers import products, reports
 
 app = FastAPI(
-    title="ASUS Product Catalog",
+    title="Product Catalog",
     version="1.0.0",
-    description="Sample API for the ASUS AI Coding Agent Workshop.",
+    description="Sample API for the AI Coding Agent Workshop.",
 )
 
 app.include_router(products.router)

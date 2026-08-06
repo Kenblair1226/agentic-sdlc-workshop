@@ -1,9 +1,7 @@
-# ASUS AI Coding Agent Workshop
+# AI Coding Agent Workshop
 
 這是一個可直接執行的 Python + FastAPI Workshop repository，用來練習完整的
 Agentic Software Development Workflow：
-
-投影片：[ASUS AI Coding Agent Workshop](slides/ASUS-AI-Coding-Agent-Workshop.pptx)
 
 ```text
 Issue → Copilot coding agent → Pull Request → CI

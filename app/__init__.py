@@ -1,2 +1,2 @@
-"""ASUS AI coding agent workshop application."""
+"""AI coding agent workshop application."""
 
