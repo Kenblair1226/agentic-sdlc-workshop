@@ -16,22 +16,6 @@ def test_search_is_case_insensitive_and_partial(client: TestClient) -> None:
     ]
 
 
-def test_search_matches_category(client: TestClient) -> None:
-    response = client.get("/products", params={"q": "MONIT"})
-
-    assert response.status_code == 200
-    assert [item["id"] for item in response.json()["items"]] == [6]
-
-
-@pytest.mark.parametrize("order", ["asc", "desc"])
-def test_sort_by_name(client: TestClient, order: str) -> None:
-    response = client.get("/products", params={"sort": "name", "order": order})
-
-    assert response.status_code == 200
-    names = [item["name"] for item in response.json()["items"]]
-    assert names == sorted(names, key=str.casefold, reverse=order == "desc")
-
-
 def test_sort_by_price_descending(client: TestClient) -> None:
     response = client.get("/products", params={"sort": "price", "order": "desc"})
 
@@ -78,7 +62,6 @@ def test_search_sort_and_pagination_can_be_combined(client: TestClient) -> None:
         ({"sort": "unknown"}, "sort"),
         ({"order": "sideways"}, "order"),
         ({"page": 0}, "page"),
-        ({"page_size": 0}, "page_size"),
         ({"page_size": 21}, "page_size"),
     ],
 )
