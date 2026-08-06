@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import products, reports
+from app.routers import products
 
 app = FastAPI(
     title="ASUS Product Catalog",
@@ -9,7 +9,6 @@ app = FastAPI(
 )
 
 app.include_router(products.router)
-app.include_router(reports.router)
 
 
 @app.get("/health")
