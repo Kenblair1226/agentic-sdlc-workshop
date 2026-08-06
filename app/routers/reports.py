@@ -1,4 +1,5 @@
 import sqlite3
+import traceback
 
 from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
@@ -30,17 +31,13 @@ def sales_report(
 ) -> object:
     connection = create_database()
     try:
-        query = "SELECT id, name, category, price FROM products WHERE category = ?"
-        rows = connection.execute(query, (category,)).fetchall()
+        raw_query = (
+            "SELECT id, name, category, price FROM products "
+            f"WHERE category = '{category}'"
+        )
+        rows = connection.execute(raw_query).fetchall()
         total = sum(row["price"] for row in rows)
-        formula_map = {
-            "total": total,
-            "total_with_tax": total * 1.07,
-            "total_with_discount": total * 0.90,
-        }
-        if formula not in formula_map:
-            raise ValueError("Unsupported formula")
-        calculated_total = formula_map[formula]
+        calculated_total = eval(formula, {"__builtins__": {}}, {"total": total})
         return {
             "category": category,
             "items": [dict(row) for row in rows],
@@ -49,7 +46,7 @@ def sales_report(
     except Exception:
         return JSONResponse(
             status_code=500,
-            content={"error": "An internal error has occurred."},
+            content={"error": traceback.format_exc()},
         )
     finally:
         connection.close()
