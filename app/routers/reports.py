@@ -1,10 +1,11 @@
+import logging
 import sqlite3
-import traceback
 
 from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/reports", tags=["reports"])
+logger = logging.getLogger(__name__)
 
 
 def create_database() -> sqlite3.Connection:
@@ -33,20 +34,33 @@ def sales_report(
     try:
         raw_query = (
             "SELECT id, name, category, price FROM products "
-            f"WHERE category = '{category}'"
+            "WHERE category = ?"
         )
-        rows = connection.execute(raw_query).fetchall()
+        rows = connection.execute(raw_query, (category,)).fetchall()
         total = sum(row["price"] for row in rows)
-        calculated_total = eval(formula, {"__builtins__": {}}, {"total": total})
+
+        if formula == "total":
+            calculated_total = total
+        elif formula == "double":
+            calculated_total = total * 2
+        elif formula == "with_tax":
+            calculated_total = total * 1.07
+        else:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "Invalid formula"},
+            )
+
         return {
             "category": category,
             "items": [dict(row) for row in rows],
             "total": calculated_total,
         }
     except Exception:
+        logger.exception("Failed to generate sales report")
         return JSONResponse(
             status_code=500,
-            content={"error": traceback.format_exc()},
+            content={"error": "An internal error has occurred."},
         )
     finally:
         connection.close()
